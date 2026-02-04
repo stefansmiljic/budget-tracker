@@ -1,27 +1,14 @@
+import 'dart:convert';
+
 import 'package:budget_tracker/expenses/models/expense.dart';
 import 'package:budget_tracker/expenses/models/expense_category.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ExpenseRepository {
   final String token;
+  static const _storageKey = 'expenses';
 
   ExpenseRepository(this.token);
-
-  final List<Expense> _expenses = [
-    Expense(
-      id: '1',
-      title: 'Nabavka',
-      amount: 100.0,
-      category: ExpenseCategory.food,
-      isIncome: false
-    ),
-    Expense(
-      id: '2',
-      title: 'Plata',
-      amount: 100000.00,
-      category: ExpenseCategory.payment,
-      isIncome: true
-    )
-  ];
 
   Future<List<Expense>> fetchExpenses() async {
     await Future.delayed(const Duration(seconds: 1));
@@ -30,7 +17,13 @@ class ExpenseRepository {
       throw Exception('Unauthorized');
     }
 
-    return List.from(_expenses);
+    final prefs = await SharedPreferences.getInstance();
+    final jsonString = prefs.getString(_storageKey);
+
+    if(jsonString == null) return [];
+
+    final List decoded = jsonDecode(jsonString);
+    return decoded.map((e)=>Expense.fromJson(e)).toList();
   }
 
   Future<void> addExpense(Expense expense) async {
@@ -40,6 +33,20 @@ class ExpenseRepository {
       throw Exception('Unauthorized');
     }
 
-    _expenses.add(expense);
+    final prefs = await SharedPreferences.getInstance();
+    final jsonString = prefs.getString(_storageKey);
+
+    final List<Expense> expenses = jsonString == null
+        ? []
+        : (jsonDecode(jsonString) as List)
+             .map((e) => Expense.fromJson(e))
+             .toList();
+    
+    expenses.add(expense);
+
+    await prefs.setString(
+      _storageKey,
+      jsonEncode(expenses.map((e)=> e.toJson()).toList())
+    );
   }
 }

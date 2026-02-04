@@ -14,4 +14,22 @@ class Expense {
     required this.category,
     required this.isIncome
   });
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'title': title,
+    'amount': amount,
+    'category': category.name,
+    'isIncome': isIncome
+  };
+
+  factory Expense.fromJson(Map<String, dynamic> json) {
+    return Expense(
+      id: json['id'],
+      title: json['title'],
+      amount: (json['amount'] as num).toDouble(),
+      category: ExpenseCategory.values.byName(json['category']),
+      isIncome: json['isIncome']
+    );
+  }
 }
