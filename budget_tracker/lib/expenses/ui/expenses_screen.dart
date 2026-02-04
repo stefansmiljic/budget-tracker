@@ -1,9 +1,9 @@
 import 'package:budget_tracker/expenses/bloc/expense_bloc.dart';
-import 'package:budget_tracker/expenses/bloc/expense_event.dart';
 import 'package:budget_tracker/expenses/bloc/expense_state.dart';
+import 'package:budget_tracker/expenses/models/expense_category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../models/expense.dart';
+import 'add_expense_screen.dart';
 
 import '../../auth/bloc/auth_bloc.dart';
 import '../../auth/bloc/auth_event.dart';
@@ -55,9 +55,10 @@ class ExpensesScreen extends StatelessWidget {
                       final e = state.filteredExpenses[index];
                       return ListTile(
                         title: Text(e.title),
-                        subtitle: Text(e.category),
+                        subtitle: Text(e.category.label.toString()),
                         trailing: Text(
-                          (e.isIncome ? '+' : '-') + e.amount.toString()
+                          (e.isIncome ? '+' : '-') + e.amount.toString(),
+                          style: TextStyle(color: e.isIncome ? Colors.green : Colors.red),
                         )
                       );
                     }),
@@ -71,15 +72,15 @@ class ExpensesScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          final fakeExpense = Expense(
-            id: DateTime.now().toString(),
-            title: 'Text expense',
-            amount: 10,
-            category: 'Food',
-            isIncome: false,
+          Navigator.push(
+            context, 
+            MaterialPageRoute(
+              builder: (ctx) => BlocProvider.value(
+                value: context.read<ExpenseBloc>(),
+                child: const AddExpenseScreen()
+              )
+            )
           );
-
-          context.read<ExpenseBloc>().add(AddExpense(fakeExpense));
         },
         child: const Icon(Icons.add),
         )

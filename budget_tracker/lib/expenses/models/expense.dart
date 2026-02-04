@@ -1,8 +1,10 @@
+import 'package:budget_tracker/expenses/models/expense_category.dart';
+
 class Expense {
   final String id;
   final String title;
   final double amount;
-  final String category;
+  final ExpenseCategory category;
   final bool isIncome;
 
   Expense({

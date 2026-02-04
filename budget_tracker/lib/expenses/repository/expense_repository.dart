@@ -1,4 +1,5 @@
 import 'package:budget_tracker/expenses/models/expense.dart';
+import 'package:budget_tracker/expenses/models/expense_category.dart';
 
 class ExpenseRepository {
   final String token;
@@ -10,14 +11,14 @@ class ExpenseRepository {
       id: '1',
       title: 'Nabavka',
       amount: 100.0,
-      category: 'Hrana',
+      category: ExpenseCategory.food,
       isIncome: false
     ),
     Expense(
       id: '2',
       title: 'Plata',
       amount: 100000.00,
-      category: 'Isplata',
+      category: ExpenseCategory.payment,
       isIncome: true
     )
   ];
