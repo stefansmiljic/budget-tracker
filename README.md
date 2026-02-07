@@ -51,5 +51,45 @@ Bloc povezuje eventove i state-ove, na osnovu eventa emituje odgovarajuci state
 
 <img width="473" height="365" alt="image" src="https://github.com/user-attachments/assets/9e8239f4-b210-43a5-a934-883f985d8964" />
 
-### Tok podataka u BLoC arhitekturi
+Tok podataka u BLoC arhitekturi je jednosmeran da bi se omogucilo predvidivo ponasanje aplikacije i olaksalo testiranje
 `UI -> Event -> BLoC -> State -> UI`
+
+## Arhitektura aplikacije
+
+Aplikacija je projektovana u klasicnoj layered arhitekturi koja je fokusirana na funkcionalnostima (features). Struktura aplikacije izgleda ovako:
+
+<img width="177" height="318" alt="image" src="https://github.com/user-attachments/assets/ac8c8dbd-8ace-49aa-9067-73787dd1891d" />
+
+Slojevi su: 
+- UI (screens) - prikaz podataka i korisnicka interakcija
+- BLoC - centralizovana poslovna logika
+- Repository - apstrakcija nad izvorima podataka (mock REST + local storage)
+
+## Funkcionalnosti aplikacije
+
+- mock autentifikacija korisnika (sa mogucnoscu integracije realnog Auth API-ja)
+- prikaz liste prihoda i troskova
+- dodavanje novih stavki
+- obracun ukupnog balansa u realnom vremenu
+- lokalna perzistencija podataka
+
+Aplikacija ne koristi pravi backend server, ali se kroz repository sloj simulira REST koncept.
+U repository-ju su definisane metode: `fetchExpenses()` koja simulira HTTP GET request, i `addExpense()` koja simulira HTTP POST request. Perzistencija podataka je regulisana koriscenjem paketa `SharedPreferences` cime je u projekat ugradjena opcija lokalnog skladistenja podataka.
+
+## Pokretanje i reprodukcija projekta
+
+Preduslovi:
+- Flutter SDK
+- Dart SDK
+- Android Studio ili VS Code
+
+Pokretanje:
+`flutter pub get`
+`flutter run`
+
+Projekat se moze pokrenuti na emulatoru ili fizickom uredjaju.
+
+## Reference
+- [[(https://docs.flutter.dev/)]](https://docs.flutter.dev/)
+- https://bloclibrary.dev/getting-started/
+
