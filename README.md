@@ -90,6 +90,6 @@ Pokretanje:
 Projekat se moze pokrenuti na emulatoru ili fizickom uredjaju.
 
 ## Reference
-- [(https://docs.flutter.dev/)](https://docs.flutter.dev/)
+- [https://docs.flutter.dev/](https://docs.flutter.dev/)
 - https://bloclibrary.dev/getting-started/
 
