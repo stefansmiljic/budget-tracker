@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:budget_tracker/expenses/models/expense.dart';
-import 'package:budget_tracker/expenses/models/expense_category.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ExpenseRepository {
